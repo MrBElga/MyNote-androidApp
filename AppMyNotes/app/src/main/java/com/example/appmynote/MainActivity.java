@@ -1,4 +1,4 @@
-package com.example.appmynotes;
+package com.example.appmynote;
 
 import android.os.Bundle;
 
