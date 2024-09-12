@@ -1,9 +1,32 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AppMyNote" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+
+    <!-- Tema principal da sua aplicação com cores suaves/vintage -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Definindo a Action Bar com a cor "old style" -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/menuItemColor</item> <!-- Cor do texto principal -->
+        <!-- Definir o estilo para os itens do menu -->
+        <item name="actionMenuTextColor">@color/menuItemColor</item>
+        <item name="android:popupMenuStyle">@style/OldStylePopupMenu</item>
     </style>
 
-    <style name="Theme.AppMyNote" parent="Base.Theme.AppMyNote" />
+    <!-- Estilo personalizado para o PopupMenu e o Menu de opções -->
+    <style name="OldStylePopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/menuBackground</item> <!-- Cor de fundo dos menus -->
+        <item name="android:textColor">@color/menuItemColor</item> <!-- Cor dos textos do menu -->
+    </style>
+
+    <!-- Customizando a ActionBar -->
+    <style name="CustomActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@color/colorPrimary</item> <!-- Cor personalizada de fundo da ActionBar -->
+        <item name="android:titleTextStyle">@style/CustomActionBarTitle</item>
+    </style>
+
+    <!-- Estilo para o texto da ActionBar -->
+    <style name="CustomActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/menuItemColor</item> <!-- Cor do texto -->
+    </style>
+
 </resources>

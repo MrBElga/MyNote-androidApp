@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AppMyNote</string>
+    <string name="baixa">Baixa</string>
+    <string name="salvar">Salvar</string>
+    <string name="t_tulo_da_nota">Título da nota</string>
+    <string name="alta">Alta</string>
+    <string name="normal">Normal</string>
 </resources>
