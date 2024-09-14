@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Título da nota -->
     <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/textViewTitleDetail"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:shadowColor="#0E0B0B"
+        android:text="@string/t_tulo"
+        android:textColor="#9A5425"
         android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Prioridade da nota -->
     <TextView
-        android:id="@+id/textViewPriority"
-        android:layout_width="wrap_content"
+        android:id="@+id/textViewPriorityDetail"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@string/prioridade"
+        android:textColor="#000000"
         android:textSize="18sp"
-        android:layout_marginTop="8dp"/>
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleDetail" />
 
+
+    <!-- Conteúdo da nota -->
     <TextView
-        android:id="@+id/textViewContent"
-        android:layout_width="wrap_content"
+        android:id="@+id/textViewContentDetail"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
-</LinearLayout>
+        android:text="@string/conte_do"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPriorityDetail" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

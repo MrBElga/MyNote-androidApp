@@ -34,7 +34,7 @@ public class AddNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String titulo = editTextTitle.getText().toString().trim();
-                String conteudo = textConteudo.getEditText().getText().toString(); // Corrigido aqui
+                String conteudo = textConteudo.getEditText() != null ? textConteudo.getEditText().getText().toString().trim() : "";
 
                 if (titulo.isEmpty()) {
                     Toast.makeText(AddNoteActivity.this, "O título não pode ser vazio", Toast.LENGTH_SHORT).show();
@@ -68,4 +68,3 @@ public class AddNoteActivity extends AppCompatActivity {
         });
     }
 }
-

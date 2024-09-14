@@ -1,64 +1,88 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editTextTitle"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:autofillHints=""
-        android:hint="@string/t_tulo_da_nota"
-        android:inputType="text"
-        android:minHeight="48dp"
-        android:textColor="#1E0000"
-        tools:ignore="VisualLintTextFieldSize" />
-
+    <!-- Campo de texto para o título da nota -->
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="530dp">
+        android:id="@+id/textInputTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/titulo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textConteudo"
+            android:id="@+id/editTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="conteudo"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Grupo de RadioButtons para selecionar a prioridade -->
     <RadioGroup
         android:id="@+id/radioGroupPriority"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/textInputTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <RadioButton
-            android:id="@+id/radio_low"
+            android:id="@+id/radioLow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/baixa"/>
+            android:text="@string/baixa"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <RadioButton
-            android:id="@+id/radio_normal"
+            android:id="@+id/radioNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/normal"/>
+            android:text="@string/normal"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <RadioButton
-            android:id="@+id/radio_high"
+            android:id="@+id/radioHigh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/alta"/>
+            android:text="@string/alta"
+            tools:ignore="TouchTargetSizeCheck" />
     </RadioGroup>
 
+    <!-- Campo de texto para o conteúdo da nota -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textConteudo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/conteudo"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupPriority"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextConteudo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Botão para salvar a nota -->
     <Button
         android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#C3A38A"
+        android:backgroundTint="#AB9D99"
         android:text="@string/salvar"
-        android:textColor="#000000" />
-
-</LinearLayout>
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textConteudo" />
+</androidx.constraintlayout.widget.ConstraintLayout>

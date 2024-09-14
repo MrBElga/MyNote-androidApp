@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private NoteAdapter noteAdapter;
     private ArrayList<Note> notes;
-    private static final int REQUEST_CODE_ADD_NOTE = 1;
+    private ActivityResultLauncher<Intent> addNoteLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,35 +35,24 @@ public class MainActivity extends AppCompatActivity {
 
         // Adicionando notas de exemplo
         notes.add(new Note("Pagar conta de luz", "Baixa", "pagar a conta em tal dia"));
-        notes.add(new Note("Visitar a vó", "Normal", "tenho q ir la..."));
-        notes.add(new Note("Dar banho no cachorro", "Normal", "dar banho no dogão tal dia"));
-        notes.add(new Note("Comprar cerveja", "Alta", "a breja n esquecer"));
-        notes.add(new Note("Aniversário da namorada", "Alta", "se eu esquecer me fodo"));
-        notes.add(new Note("Fazer o projeto de Android", "Baixa", "kkkkkkkkkkkkk"));
+        notes.add(new Note("Visitar a vó", "Normal", "tenho que ir lá..."));
+        notes.add(new Note("Dar banho no cachorro", "Normal", "dar banho no cachorro tal dia"));
+        notes.add(new Note("Comprar cerveja", "Alta", "não esquecer a cerveja"));
+        notes.add(new Note("Aniversário da namorada", "Alta", "se eu esquecer, vou me ferrar"));
+        notes.add(new Note("Fazer o projeto de Android", "Baixa", "kkkkkkkkkkkk"));
 
         noteAdapter = new NoteAdapter(this, notes);
         listView.setAdapter(noteAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Toque curto - abrir a nota detalhada
-                Note selectedNote = notes.get(position);
-                Intent intent = new Intent(MainActivity.this, NoteDetailActivity.class);
-                intent.putExtra("titulo", selectedNote.getTitulo());
-                intent.putExtra("prioridade", selectedNote.getPrioridade());
-                intent.putExtra("conteudo", selectedNote.getConteudo());
-                startActivity(intent);
-            }
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // Toque longo - remover a nota
-                notes.remove(position);
+        // Configuração do ActivityResultLauncher
+        addNoteLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                Intent data = result.getData();
+                String titulo = data.getStringExtra("titulo");
+                String prioridade = data.getStringExtra("prioridade");
+                String conteudo = data.getStringExtra("conteudo");
+                notes.add(new Note(titulo, prioridade, conteudo));
                 noteAdapter.notifyDataSetChanged();
-                return true;
             }
         });
     }
@@ -81,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.menu_add_note) {
             Intent intent = new Intent(this, AddNoteActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
+            addNoteLauncher.launch(intent);
             return true;
         } else if (id == R.id.menu_sort_priority) {
             sortByPriority();
@@ -94,18 +83,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else {
             return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK && data != null) {
-            String titulo = data.getStringExtra("titulo");
-            String prioridade = data.getStringExtra("prioridade");
-            String conteudo = data.getStringExtra("conteudo");
-            notes.add(new Note(titulo, prioridade, conteudo));
-            noteAdapter.notifyDataSetChanged();
         }
     }
 
@@ -142,4 +119,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-

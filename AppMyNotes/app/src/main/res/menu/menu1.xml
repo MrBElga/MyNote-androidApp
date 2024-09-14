@@ -1,18 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_add_note"
-        android:title="Nova Anotação"
+        android:title="@string/nova_anota_o"
         android:textColor="@color/menuItemColor" />
     <item
         android:id="@+id/menu_sort_priority"
-        android:title="Ordenar por Prioridade"
+        android:title="@string/ordenar_por_prioridade"
         android:textColor="@color/menuItemColor" />
     <item
         android:id="@+id/menu_sort_alpha"
-        android:title="Ordenar por Ordem Alfabética"
+        android:title="@string/ordenar_por_ordem_alfab_tica"
         android:textColor="@color/menuItemColor" />
     <item
         android:id="@+id/menu_close"
-        android:title="Fechar"
+        android:title="@string/fechar"
         android:textColor="@color/menuItemColor" />
 </menu>
