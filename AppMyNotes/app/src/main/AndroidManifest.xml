@@ -21,6 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+        android:name=".AddNoteActivity"
+        android:exported="true" />
+
+        <activity
+            android:name=".NoteDetailActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

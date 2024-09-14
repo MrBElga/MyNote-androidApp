@@ -1,5 +1,6 @@
 package com.example.appmynote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,11 +11,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 public class AddNoteActivity extends AppCompatActivity {
 
     private EditText editTextTitle;
     private RadioGroup radioGroupPriority;
     private Button buttonSave;
+    private TextInputLayout textConteudo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,37 +28,41 @@ public class AddNoteActivity extends AppCompatActivity {
         editTextTitle = findViewById(R.id.editTextTitle);
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSave = findViewById(R.id.buttonSave);
+        textConteudo = findViewById(R.id.textConteudo);
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obter o título
-                String title = editTextTitle.getText().toString().trim();
+                String titulo = editTextTitle.getText().toString().trim();
+                String conteudo = textConteudo.getEditText() != null ? textConteudo.getEditText().getText().toString().trim() : "";
 
-                // Verifica se o título não está vazio
-                if (title.isEmpty()) {
+                if (titulo.isEmpty()) {
                     Toast.makeText(AddNoteActivity.this, "O título não pode ser vazio", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Obter a prioridade selecionada
                 int selectedPriorityId = radioGroupPriority.getCheckedRadioButtonId();
-
-                // Verificar se algum RadioButton foi selecionado
                 if (selectedPriorityId == -1) {
                     Toast.makeText(AddNoteActivity.this, "Por favor, selecione uma prioridade", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                if (conteudo.isEmpty()) {
+                    Toast.makeText(AddNoteActivity.this, "O conteúdo não pode ser vazio", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 RadioButton selectedPriority = findViewById(selectedPriorityId);
-                String priority = selectedPriority.getText().toString();
+                String prioridade = selectedPriority.getText().toString();
 
-                // Neste ponto, temos o título e a prioridade selecionados
-                Toast.makeText(AddNoteActivity.this, "Nota salva com título: " + title + " e prioridade: " + priority, Toast.LENGTH_SHORT).show();
+                // Criar um Intent para retornar os dados
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("titulo", titulo);
+                resultIntent.putExtra("prioridade", prioridade);
+                resultIntent.putExtra("conteudo", conteudo);
+                setResult(RESULT_OK, resultIntent);
 
-                // Adicione a lógica para salvar a anotação (por exemplo, enviar a anotação de volta para a MainActivity ou salvar no banco de dados)
-
-                // Fecha a AddNoteActivity após salvar a anotação
+                // Finalizar a atividade
                 finish();
             }
         });

@@ -1,6 +1,7 @@
 package com.example.appmynote;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class NoteAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.note_item, parent, false);
         }
@@ -46,12 +47,12 @@ public class NoteAdapter extends BaseAdapter {
         Note currentNote = (Note) getItem(position);
 
         TextView title = convertView.findViewById(R.id.textViewTitle);
-        LinearLayout noteLayout = convertView.findViewById(R.id.noteLayout); // Ajustado aqui para o ID correto
+        LinearLayout noteLayout = convertView.findViewById(R.id.noteLayout);
 
-        title.setText(currentNote.getTitle());
+        title.setText(currentNote.getTitulo());
 
         // Ajustando a cor de fundo de acordo com a prioridade
-        switch (currentNote.getPriority()) {
+        switch (currentNote.getPrioridade()) {
             case "Baixa":
                 noteLayout.setBackgroundResource(android.R.color.holo_orange_light);
                 break;
@@ -63,7 +64,18 @@ public class NoteAdapter extends BaseAdapter {
                 break;
         }
 
+        noteLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Note note = notes.get(position);
+                Intent intent = new Intent(context, NoteDetailActivity.class);
+                intent.putExtra("titulo", note.getTitulo());
+                intent.putExtra("prioridade", note.getPrioridade());
+                intent.putExtra("conteudo", note.getConteudo());
+                context.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
-
 }
