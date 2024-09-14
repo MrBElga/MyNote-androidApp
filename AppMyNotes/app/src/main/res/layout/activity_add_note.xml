@@ -8,12 +8,25 @@
     <EditText
         android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:autofillHints=""
         android:hint="@string/t_tulo_da_nota"
         android:inputType="text"
         android:minHeight="48dp"
+        android:textColor="#1E0000"
         tools:ignore="VisualLintTextFieldSize" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="530dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textConteudo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="conteudo"
+            android:textColor="#000000" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <RadioGroup
         android:id="@+id/radioGroupPriority"
@@ -44,6 +57,8 @@
         android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/salvar"/>
+        android:backgroundTint="#C3A38A"
+        android:text="@string/salvar"
+        android:textColor="#000000" />
 
 </LinearLayout>

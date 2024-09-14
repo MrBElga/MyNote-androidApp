@@ -48,10 +48,10 @@ public class NoteAdapter extends BaseAdapter {
         TextView title = convertView.findViewById(R.id.textViewTitle);
         LinearLayout noteLayout = convertView.findViewById(R.id.noteLayout); // Ajustado aqui para o ID correto
 
-        title.setText(currentNote.getTitle());
+        title.setText(currentNote.getTitulo());
 
         // Ajustando a cor de fundo de acordo com a prioridade
-        switch (currentNote.getPriority()) {
+        switch (currentNote.getPrioridade()) {
             case "Baixa":
                 noteLayout.setBackgroundResource(android.R.color.holo_orange_light);
                 break;
