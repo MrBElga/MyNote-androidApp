@@ -1,6 +1,8 @@
-package com.example.appmynote;
+package com.example.appmynote.activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appmynote.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class AddNoteActivity extends AppCompatActivity {
@@ -55,16 +58,37 @@ public class AddNoteActivity extends AppCompatActivity {
                 RadioButton selectedPriority = findViewById(selectedPriorityId);
                 String prioridade = selectedPriority.getText().toString();
 
-                // Criar um Intent para retornar os dados
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("titulo", titulo);
-                resultIntent.putExtra("prioridade", prioridade);
-                resultIntent.putExtra("conteudo", conteudo);
-                setResult(RESULT_OK, resultIntent);
+                // insere no banco de dados <<<<<<<<<<<
+                try {
+                    SQLiteDatabase bancoDados = openOrCreateDatabase("notasapp", MODE_PRIVATE, null);
+                    String sql = "INSERT INTO notas (titulo, prioridade, conteudo) VALUES (?, ?, ?)";
+                    SQLiteStatement stmt = bancoDados.compileStatement(sql);
+                    stmt.bindString(1, titulo);
+                    stmt.bindString(2, prioridade);
+                    stmt.bindString(3, conteudo);
+                    stmt.executeInsert();
+                    stmt.close();
+                    bancoDados.close();
 
-                // Finalizar a atividade
+                    Toast.makeText(AddNoteActivity.this, "Nota salva com sucesso!", Toast.LENGTH_SHORT).show();
+
+
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("titulo", titulo);
+                    returnIntent.putExtra("prioridade", prioridade);
+                    returnIntent.putExtra("conteudo", conteudo);
+                    setResult(RESULT_OK, returnIntent);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(AddNoteActivity.this, "Erro ao salvar a nota", Toast.LENGTH_SHORT).show();
+                }
+
+
+                // retorna para  a mainActivity
                 finish();
             }
         });
+
     }
 }
