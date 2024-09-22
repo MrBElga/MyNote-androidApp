@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listViewNotes);
         notes = new ArrayList<>();
-
+        //inserirDados();
         // arrumei aq estava duplicado o isnerir do addnoteactivity
         addNoteLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -75,20 +75,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // função para iniciar o banco
-    public void inserirNotaNoBanco(String titulo, String prioridade, String conteudo) {
+    public void inserirDados() {
         try {
+
+
             bancoDados = openOrCreateDatabase("notasapp", MODE_PRIVATE, null);
             String sql = "INSERT INTO notas (titulo, prioridade, conteudo) VALUES (?, ?, ?)";
             SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
-            stmt.bindString(1, titulo);
-            stmt.bindString(2, prioridade);
-            stmt.bindString(3, conteudo);
+            // Dados a serem inseridos
+            String[][] notas = {
+                    {"Pagar conta de luz", "Baixa", "pagar a conta em tal dia"},
+                    {"Visitar a vó", "Normal", "tenho que ir lá..."},
+                    {"Dar banho no cachorro", "Normal", "dar banho no cachorro tal dia"},
+                    {"Comprar cerveja", "Alta", "não esquecer a cerveja"},
+                    {"Aniversário da namorada", "Alta", "se eu esquecer, vou me ferrar"},
+                    {"Fazer o projeto de Android", "Baixa", "kkkkkkkkkkkk"}
+            };
 
-            stmt.executeInsert();
-            stmt.clearBindings();
+            for (String[] nota : notas) {
+                stmt.bindString(1, nota[0]); // Título
+                stmt.bindString(2, nota[1]); // Prioridade
+                stmt.bindString(3, nota[2]); // Conteúdo
+                stmt.executeInsert();
+                stmt.clearBindings();
+            }
+
             stmt.close();
-        } catch (Exception e) {
+            bancoDados.close();
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
