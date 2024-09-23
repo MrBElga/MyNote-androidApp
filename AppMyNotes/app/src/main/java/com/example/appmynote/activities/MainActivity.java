@@ -3,6 +3,7 @@ package com.example.appmynote.activities;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        inserirDadosIniciais();
         listView = findViewById(R.id.listViewNotes);
         notes = new ArrayList<>();
         //inserirDados();
@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void listarDados() {
-        notes.clear();  // Limpa a lista antes de adicionar novas notas
+       // limpa a lista antes de adicionar novas notas
+        notes.clear();
         try {
             bancoDados = openOrCreateDatabase("notasapp", MODE_PRIVATE, null);
             Cursor cursor = bancoDados.rawQuery("SELECT id, titulo, prioridade, conteudo, caminho FROM notas", null);
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
             bancoDados.close();
 
-            // Atualize o adapter após adicionar os novos dados
+            // atualiza adapter após adicionar
             if (noteAdapter == null) {
                 noteAdapter = new NoteAdapter(this, notes);
                 listView.setAdapter(noteAdapter);
@@ -166,4 +167,47 @@ public class MainActivity extends AppCompatActivity {
                 return 99;
         }
     }
+
+    private void inserirDadosIniciais() {
+        try {
+            bancoDados = openOrCreateDatabase("notasapp", MODE_PRIVATE, null);
+
+            Cursor cursor = bancoDados.rawQuery("SELECT COUNT(*) FROM notas", null);
+            cursor.moveToFirst();
+            int count = cursor.getInt(0);
+            cursor.close();
+
+
+            if (count == 0) {
+                String sql = "INSERT INTO notas (titulo, prioridade, conteudo, caminho) VALUES (?, ?, ?, ?)";
+                SQLiteStatement stmt = bancoDados.compileStatement(sql);
+
+                // Exemplo de notas iniciais
+                stmt.bindString(1, "Trabalho de ferro");
+                stmt.bindString(2, "Alta");
+                stmt.bindString(3, "Fazero o app myNote em android...");
+                stmt.bindString(4, "");
+                stmt.executeInsert();
+
+                stmt.bindString(1, "Limpar o carro");
+                stmt.bindString(2, "Normal");
+                stmt.bindString(3, "Limpar o carro até sexta");
+                stmt.bindString(4, "");
+                stmt.executeInsert();
+
+                stmt.bindString(1, "Trabalho do siscoutto de Redes");
+                stmt.bindString(2, "Baixa");
+                stmt.bindString(3, "Muito texto preguiça");
+                stmt.bindString(4, "");
+                stmt.executeInsert();
+
+                stmt.close();
+            }
+
+            bancoDados.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -2,9 +2,9 @@ package com.example.appmynote.entidades;
 
 public class Note {
     private final String titulo;
-    private String prioridade;
-    private String conteudo;
-    private String  caminho;
+    private final String prioridade;
+    private final String conteudo;
+    private final String  caminho;
 
 
     public Note(String titulo, String prioridade, String conteudo, String caminho) {
@@ -22,16 +22,8 @@ public class Note {
         return prioridade;
     }
 
-    public void setPrioridade(String prioridade) {
-        this.prioridade = prioridade;
-    }
-
     public String getConteudo() {
         return conteudo;
-    }
-
-    public void setConteudo(String conteudo) {
-        this.conteudo = conteudo;
     }
 
 
@@ -39,7 +31,4 @@ public class Note {
         return caminho;
     }
 
-    public void setCaminho(String caminho) {
-        this.caminho = caminho;
-    }
 }

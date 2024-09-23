@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
         ImageView imageView = findViewById(R.id.imageViewSplash);
-        imageView.setOnClickListener(e->{entrar();});
+        imageView.setOnClickListener(e-> entrar());
         handler=new Handler();
         runnable= this::entrar;
         handler.postDelayed(runnable,1000);
