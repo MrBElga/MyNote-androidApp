@@ -1,6 +1,5 @@
 <resources>
 
-    <!-- Tema principal da sua aplicação com cores suaves/vintage -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -25,7 +24,9 @@
 
 
     <style name="CustomActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:icon">@drawable/note</item>
         <item name="android:textColor">@color/menuItemColor</item>
     </style>
+
 
 </resources>
