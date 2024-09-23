@@ -42,6 +42,7 @@
             android:layout_width="111dp"
             android:layout_height="wrap_content"
             android:text="@string/baixa"
+            android:textColor="#000000"
             tools:ignore="TouchTargetSizeCheck" />
 
         <RadioButton
@@ -49,6 +50,7 @@
             android:layout_width="129dp"
             android:layout_height="wrap_content"
             android:text="@string/normal"
+            android:textColor="#000000"
             tools:ignore="TouchTargetSizeCheck" />
 
         <RadioButton
@@ -56,6 +58,7 @@
             android:layout_width="106dp"
             android:layout_height="wrap_content"
             android:text="@string/alta"
+            android:textColor="#000000"
             tools:ignore="TouchTargetSizeCheck" />
     </RadioGroup>
 

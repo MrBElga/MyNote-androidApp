@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appmynote.R;
@@ -33,7 +31,6 @@ public class AddNoteActivity extends AppCompatActivity {
     private EditText editTextTitle;
     private RadioGroup radioGroupPriority;
     private TextInputLayout textConteudo;
-    private FloatingActionButton flutuante;
     private Bitmap bitmap=null;
     private String caminhoImagem = "";
 
@@ -48,12 +45,11 @@ public class AddNoteActivity extends AppCompatActivity {
         textConteudo = findViewById(R.id.textConteudo);
         imageView = findViewById(R.id.imageView);
 
-        flutuante=findViewById(R.id.floatingActionButton);
-        flutuante.setOnClickListener(e->{tirarFoto();});
+        FloatingActionButton flutuante = findViewById(R.id.floatingActionButton);
+        flutuante.setOnClickListener(e-> tirarFoto());
         buttonSave.setOnClickListener(v -> {
             String titulo = editTextTitle.getText().toString().trim();
             String conteudo = textConteudo.getEditText() != null ? textConteudo.getEditText().getText().toString().trim() : "";
-            String caminho = "";
 
 
             if (titulo.isEmpty()) {
@@ -130,9 +126,8 @@ public class AddNoteActivity extends AppCompatActivity {
     public File getFilePublic(String filename)
     {
 
-        File file = new File(Environment.getExternalStoragePublicDirectory(
+        return new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), filename);
-        return file;
     }
 
     private void tirarFoto()
@@ -146,6 +141,7 @@ public class AddNoteActivity extends AppCompatActivity {
         if(requestCode == REQUEST_CODE_PHOTO)
         {   if (resultCode == Activity.RESULT_OK)
             {   Bundle extras = data.getExtras();
+                assert extras != null;
                 bitmap = (Bitmap) extras.get("data");
                 imageView.setImageBitmap(bitmap);
                 salvarFoto();
