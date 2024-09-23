@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public class NoteAdapter extends BaseAdapter {
 
-    private Context context;
-    private ArrayList<Note> notes;
+    private final Context context;
+    private final ArrayList<Note> notes;
 
     public NoteAdapter(Context context, ArrayList<Note> notes) {
         this.context = context;
@@ -56,7 +56,7 @@ public class NoteAdapter extends BaseAdapter {
 
         title.setText(currentNote.getTitulo());
 
-        // Ajustando a cor de fundo de acordo com a prioridade
+        // colocando cor
         switch (currentNote.getPrioridade()) {
             case "Baixa":
                 noteLayout.setBackgroundResource(android.R.color.holo_orange_light);
@@ -69,29 +69,24 @@ public class NoteAdapter extends BaseAdapter {
                 break;
         }
 
-        noteLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Note note = notes.get(position);
-                Intent intent = new Intent(context, NoteDetailActivity.class);
-                intent.putExtra("titulo", note.getTitulo());
-                intent.putExtra("prioridade", note.getPrioridade());
-                intent.putExtra("conteudo", note.getConteudo());
-                context.startActivity(intent);
-            }
+        // click curto
+        noteLayout.setOnClickListener(v -> {
+            Note note = notes.get(position);
+            Intent intent = new Intent(context, NoteDetailActivity.class);
+            intent.putExtra("titulo", note.getTitulo());
+            intent.putExtra("prioridade", note.getPrioridade());
+            intent.putExtra("conteudo", note.getConteudo());
+            context.startActivity(intent);
         });
 
-        // Clique longo para excluir a nota
-        noteLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Note note = notes.get(position);
-                excluirNota(note.getTitulo());
-                notes.remove(position);
-                notifyDataSetChanged();
-                Toast.makeText(context, "Nota excluída", Toast.LENGTH_SHORT).show();
-                return true;
-            }
+        // click longo
+        noteLayout.setOnLongClickListener(v -> {
+            Note note = notes.get(position);
+            excluirNota(note.getTitulo());
+            notes.remove(position);
+            notifyDataSetChanged();
+            Toast.makeText(context, "Nota excluída", Toast.LENGTH_SHORT).show();
+            return true;
         });
 
         return convertView;

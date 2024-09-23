@@ -2,31 +2,30 @@
 
     <!-- Tema principal da sua aplicação com cores suaves/vintage -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Definindo a Action Bar com a cor "old style" -->
+        <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/menuItemColor</item> <!-- Cor do texto principal -->
-        <!-- Definir o estilo para os itens do menu -->
+        <item name="android:textColorPrimary">@color/menuItemColor</item>
+
         <item name="actionMenuTextColor">@color/menuItemColor</item>
         <item name="android:popupMenuStyle">@style/OldStylePopupMenu</item>
     </style>
 
-    <!-- Estilo personalizado para o PopupMenu e o Menu de opções -->
     <style name="OldStylePopupMenu" parent="Widget.AppCompat.PopupMenu">
-        <item name="android:popupBackground">@color/menuBackground</item> <!-- Cor de fundo dos menus -->
-        <item name="android:textColor">@color/menuItemColor</item> <!-- Cor dos textos do menu -->
+        <item name="android:popupBackground">@color/menuBackground</item>
+        <item name="android:textColor">@color/menuItemColor</item>
     </style>
 
-    <!-- Customizando a ActionBar -->
+
     <style name="CustomActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="android:background">@color/colorPrimary</item> <!-- Cor personalizada de fundo da ActionBar -->
+        <item name="android:background">@color/colorPrimary</item>
         <item name="android:titleTextStyle">@style/CustomActionBarTitle</item>
     </style>
 
-    <!-- Estilo para o texto da ActionBar -->
+
     <style name="CustomActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/menuItemColor</item> <!-- Cor do texto -->
+        <item name="android:textColor">@color/menuItemColor</item>
     </style>
 
 </resources>
