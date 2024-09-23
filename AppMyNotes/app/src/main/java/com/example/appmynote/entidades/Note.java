@@ -1,7 +1,7 @@
 package com.example.appmynote.entidades;
 
 public class Note {
-    private String titulo;
+    private final String titulo;
     private String prioridade;
     private String conteudo;
 
@@ -13,10 +13,6 @@ public class Note {
 
     public String getTitulo() {
         return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String getPrioridade() {

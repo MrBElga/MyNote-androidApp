@@ -3,7 +3,6 @@ package com.example.appmynote.activities;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +20,6 @@ import com.example.appmynote.adapters.NoteAdapter;
 import com.example.appmynote.entidades.Note;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        String titulo = result.getData().getStringExtra("titulo");
-                        String prioridade = result.getData().getStringExtra("prioridade");
-                        String conteudo = result.getData().getStringExtra("conteudo");
+                        result.getData().getStringExtra("titulo");
+                        result.getData().getStringExtra("prioridade");
+                        result.getData().getStringExtra("conteudo");
                         // atualizando a listview por aq
                         listarDados();
 
@@ -73,42 +70,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    // função para iniciar o banco
-    public void inserirDados() {
-        try {
-
-
-            bancoDados = openOrCreateDatabase("notasapp", MODE_PRIVATE, null);
-            String sql = "INSERT INTO notas (titulo, prioridade, conteudo) VALUES (?, ?, ?)";
-            SQLiteStatement stmt = bancoDados.compileStatement(sql);
-
-            // Dados a serem inseridos
-            String[][] notas = {
-                    {"Pagar conta de luz", "Baixa", "pagar a conta em tal dia"},
-                    {"Visitar a vó", "Normal", "tenho que ir lá..."},
-                    {"Dar banho no cachorro", "Normal", "dar banho no cachorro tal dia"},
-                    {"Comprar cerveja", "Alta", "não esquecer a cerveja"},
-                    {"Aniversário da namorada", "Alta", "se eu esquecer, vou me ferrar"},
-                    {"Fazer o projeto de Android", "Baixa", "kkkkkkkkkkkk"}
-            };
-
-            for (String[] nota : notas) {
-                stmt.bindString(1, nota[0]); // Título
-                stmt.bindString(2, nota[1]); // Prioridade
-                stmt.bindString(3, nota[2]); // Conteúdo
-                stmt.executeInsert();
-                stmt.clearBindings();
-            }
-
-            stmt.close();
-            bancoDados.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-
 
 
     public void listarDados() {
@@ -171,22 +132,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 private void ordenarPorPrioridade() {
-        Collections.sort(notes, new Comparator<Note>() {
-            @Override
-            public int compare(Note n1, Note n2) {
-                return getPriorityValue(n1.getPrioridade()) - getPriorityValue(n2.getPrioridade());
-            }
-        });
+        notes.sort((n1, n2) -> getPriorityValue(n1.getPrioridade()) - getPriorityValue(n2.getPrioridade()));
         noteAdapter.notifyDataSetChanged();
     }
 
     private void ordenarPorOrdem() {
-        Collections.sort(notes, new Comparator<Note>() {
-            @Override
-            public int compare(Note n1, Note n2) {
-                return n1.getTitulo().compareToIgnoreCase(n2.getTitulo());
-            }
-        });
+        notes.sort((n1, n2) -> n1.getTitulo().compareToIgnoreCase(n2.getTitulo()));
         noteAdapter.notifyDataSetChanged();
     }
 

@@ -1,9 +1,7 @@
 package com.example.appmynote.activities;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -13,10 +11,8 @@ import com.example.appmynote.R;
 
 public class NoteDetailActivity extends AppCompatActivity {
 
-    private Context context;
-    private TextView textViewTitle;
-    private TextView textViewPriority;
-    private TextView textViewContent;
+    public NoteDetailActivity() {
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -24,9 +20,9 @@ public class NoteDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_detail);
 
-        textViewTitle = findViewById(R.id.textViewTitleDetail);
-        textViewPriority = findViewById(R.id.textViewPriorityDetail);
-        textViewContent = findViewById(R.id.textViewContentDetail);
+        TextView textViewTitle = findViewById(R.id.textViewTitleDetail);
+        TextView textViewPriority = findViewById(R.id.textViewPriorityDetail);
+        TextView textViewContent = findViewById(R.id.textViewContentDetail);
 
         // recebendo dados da itent
         Intent intent = getIntent();
