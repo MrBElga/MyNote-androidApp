@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                         result.getData().getStringExtra("titulo");
                         result.getData().getStringExtra("prioridade");
                         result.getData().getStringExtra("conteudo");
+                        result.getData().getStringExtra("caminho");
                         // atualizando a listview por aq
                         listarDados();
 
@@ -74,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "titulo VARCHAR, " +
                     "prioridade VARCHAR, " +
-                    "conteudo VARCHAR)");
+                    "conteudo VARCHAR," +
+                    "caminho VARCHAR)");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,14 +88,15 @@ public class MainActivity extends AppCompatActivity {
         notes.clear();  // Limpa a lista antes de adicionar novas notas
         try {
             bancoDados = openOrCreateDatabase("notasapp", MODE_PRIVATE, null);
-            Cursor cursor = bancoDados.rawQuery("SELECT id, titulo, prioridade, conteudo FROM notas", null);
+            Cursor cursor = bancoDados.rawQuery("SELECT id, titulo, prioridade, conteudo, caminho FROM notas", null);
 
             if (cursor.moveToFirst()) {
                 do {
                     String titulo = cursor.getString(1);
                     String prioridade = cursor.getString(2);
                     String conteudo = cursor.getString(3);
-                    notes.add(new Note(titulo, prioridade, conteudo));
+                    String caminho = cursor.getString(4);
+                    notes.add(new Note(titulo, prioridade, conteudo, caminho));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -140,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-private void ordenarPorPrioridade() {
+    private void ordenarPorPrioridade() {
         notes.sort((n1, n2) -> getPriorityValue(n1.getPrioridade()) - getPriorityValue(n2.getPrioridade()));
         noteAdapter.notifyDataSetChanged();
     }

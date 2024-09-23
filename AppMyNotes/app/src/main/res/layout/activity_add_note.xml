@@ -85,13 +85,37 @@
         android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="#AB9D99"
         android:text="@string/salvar"
         android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="146dp"
+        android:layout_height="126dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/todoss"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textConteudo" />
+        app:layout_constraintTop_toBottomOf="@+id/textConteudo"
+        app:srcCompat="@drawable/ic_photo" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:contentDescription="@string/todos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_camera"
+        tools:ignore="ImageContrastCheck,DuplicateSpeakableTextCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

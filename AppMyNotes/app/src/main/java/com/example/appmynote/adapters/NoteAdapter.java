@@ -76,6 +76,7 @@ public class NoteAdapter extends BaseAdapter {
             intent.putExtra("titulo", note.getTitulo());
             intent.putExtra("prioridade", note.getPrioridade());
             intent.putExtra("conteudo", note.getConteudo());
+            intent.putExtra("caminho", note.getCaminho()); // Adiciona o caminho aqui
             context.startActivity(intent);
         });
 

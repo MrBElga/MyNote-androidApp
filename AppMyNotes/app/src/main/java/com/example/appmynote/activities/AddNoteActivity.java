@@ -1,25 +1,41 @@
 package com.example.appmynote.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appmynote.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class AddNoteActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.FileOutputStream;
 
+public class AddNoteActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE_PHOTO = 10000;
+    private ImageView imageView;
     private EditText editTextTitle;
     private RadioGroup radioGroupPriority;
     private TextInputLayout textConteudo;
+    private FloatingActionButton flutuante;
+    private Bitmap bitmap=null;
+    private String caminhoImagem = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +46,15 @@ public class AddNoteActivity extends AppCompatActivity {
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         Button buttonSave = findViewById(R.id.buttonSave);
         textConteudo = findViewById(R.id.textConteudo);
+        imageView = findViewById(R.id.imageView);
 
+        flutuante=findViewById(R.id.floatingActionButton);
+        flutuante.setOnClickListener(e->{tirarFoto();});
         buttonSave.setOnClickListener(v -> {
             String titulo = editTextTitle.getText().toString().trim();
             String conteudo = textConteudo.getEditText() != null ? textConteudo.getEditText().getText().toString().trim() : "";
+            String caminho = "";
+
 
             if (titulo.isEmpty()) {
                 Toast.makeText(AddNoteActivity.this, "O título não pode ser vazio", Toast.LENGTH_SHORT).show();
@@ -57,11 +78,12 @@ public class AddNoteActivity extends AppCompatActivity {
             // insere no banco de dados <<<<<<<<<<<
             try {
                 SQLiteDatabase bancoDados = openOrCreateDatabase("notasapp", MODE_PRIVATE, null);
-                String sql = "INSERT INTO notas (titulo, prioridade, conteudo) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO notas (titulo, prioridade, conteudo, caminho) VALUES (?, ?, ?, ?)";
                 SQLiteStatement stmt = bancoDados.compileStatement(sql);
                 stmt.bindString(1, titulo);
                 stmt.bindString(2, prioridade);
                 stmt.bindString(3, conteudo);
+                stmt.bindString(4, caminhoImagem);
                 stmt.executeInsert();
                 stmt.close();
                 bancoDados.close();
@@ -73,6 +95,7 @@ public class AddNoteActivity extends AppCompatActivity {
                 returnIntent.putExtra("titulo", titulo);
                 returnIntent.putExtra("prioridade", prioridade);
                 returnIntent.putExtra("conteudo", conteudo);
+                returnIntent.putExtra("caminho", caminhoImagem);
                 setResult(RESULT_OK, returnIntent);
 
             } catch (Exception e) {
@@ -85,5 +108,52 @@ public class AddNoteActivity extends AppCompatActivity {
             finish();
         });
 
+    }
+
+    private void salvarFoto() {
+        File file = getFilePublic("foto" + System.currentTimeMillis() + ".jpg");
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fos);
+            fos.flush();
+            fos.close();
+            caminhoImagem = file.getAbsolutePath();
+            Intent novaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file));
+            sendBroadcast(novaIntent);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Erro " + e, Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    public File getFilePublic(String filename)
+    {
+
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), filename);
+        return file;
+    }
+
+    private void tirarFoto()
+    {	 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CODE_PHOTO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {       super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_PHOTO)
+        {   if (resultCode == Activity.RESULT_OK)
+            {   Bundle extras = data.getExtras();
+                bitmap = (Bitmap) extras.get("data");
+                imageView.setImageBitmap(bitmap);
+                salvarFoto();
+            }
+            else  // Cancelou a foto
+            {
+                imageView.setImageResource(R.drawable.ic_camera);
+            }
+        }
     }
 }
